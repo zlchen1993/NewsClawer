@@ -1,12 +1,14 @@
 import re
+from urllib.parse import urlparse
 
 from parsel import Selector
 
 from model.news import NewsItem
 from tools.utils import unix_to_str
 
-# 匹配原生头条文章链接里的 gid：toutiao.com/group/<id>/ 或 toutiao.com/item/<id>/
-_NATIVE_ARTICLE_RE = re.compile(r"toutiao\.com/(?:group|item)/(\d+)")
+# 原生头条文章的 host 白名单（排除 article.zlink.toutiao.com 等外链）
+_NATIVE_HOSTS = {"toutiao.com", "www.toutiao.com", "m.toutiao.com"}
+_PATH_GID_RE = re.compile(r"^/(?:group|item)/(\d+)")
 _ARTICLE_URL_RE = re.compile(r'"article_url"\s*:\s*"([^"]+)"')
 
 
@@ -31,12 +33,18 @@ def parse_hot_board(data: dict) -> list[NewsItem]:
 
 
 def extract_article_gid(search_html: str) -> str | None:
-    """从搜索页 HTML 内嵌 JSON 中取第一篇原生头条文章的 gid；无则 None。"""
+    """从搜索页 HTML 内嵌 JSON 中取第一篇原生头条文章的 gid；无则 None。
+
+    只接受 host 在白名单内的链接，避免误取 article.zlink.toutiao.com 等外链
+    （其 h5_url 参数里可能嵌入像原生文章的路径）。
+    """
     for raw_url in _ARTICLE_URL_RE.findall(search_html):
         url = raw_url.replace("\\/", "/")
-        m = _NATIVE_ARTICLE_RE.search(url)
-        if m:
-            return m.group(1)
+        parsed = urlparse(url)
+        if parsed.netloc in _NATIVE_HOSTS:
+            m = _PATH_GID_RE.match(parsed.path)
+            if m:
+                return m.group(1)
     return None
 
 
@@ -44,7 +52,7 @@ def parse_article_info(info: dict) -> dict:
     """把移动端文章 info JSON 解析为详情字段 dict。"""
     data = info.get("data") or {}
     content_html = data.get("content") or ""
-    sel = Selector(text=content_html) if content_html else Selector(text="")
+    sel = Selector(text=content_html)
     text = "".join(sel.xpath("//text()").getall()).strip()
     images = sel.xpath("//img/@src").getall()
     return {
