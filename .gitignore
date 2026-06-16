@@ -6,9 +6,14 @@ dist/
 wheels/
 *.egg-info
 docs/
+pytest.ini
 
+news_clawer/tests/
 # Virtual environments
 .venv
+
+# IDE
+.idea/
 
 data/
 browser_data/

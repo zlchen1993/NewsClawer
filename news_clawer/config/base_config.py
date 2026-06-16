@@ -14,3 +14,6 @@ HEADLESS = True
 LOGIN_TYPE = "qrcode"          # qrcode / cookie
 COOKIES = ""
 USER_DATA_DIR = "browser_data/%s"
+
+
+# TX_HOT_BOARD_URL = "https://r.inews.qq.com/gw/event/pc_hot_ranking_list?ids_hash=&offset=0&page_size=50"

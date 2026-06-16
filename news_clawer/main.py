@@ -14,12 +14,14 @@ if sys.stderr and hasattr(sys.stderr, "buffer"):
 import config
 from base.base_crawler import AbstractNewsCrawler
 from platforms.toutiao.core import ToutiaoCrawler
+from platforms.tx.core import TencentCrawler
 from store.json_store import JsonNewsStore
 
 
 class CrawlerFactory:
     CRAWLERS: dict[str, type[AbstractNewsCrawler]] = {
         "toutiao": ToutiaoCrawler,
+        "tencent": TencentCrawler,
     }
 
     @staticmethod

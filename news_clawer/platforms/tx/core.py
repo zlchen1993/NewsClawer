@@ -1,25 +1,23 @@
+import asyncio
+
 import config
 from base.base_crawler import HttpNewsCrawler
 from model.news import NewsItem
-from platforms.toutiao.client import ToutiaoClient
-from platforms.toutiao.parser import (
-    parse_hot_board,
-    extract_article_gid,
-    parse_article_info,
-)
+from platforms.tx.client import TencentClient
+from platforms.tx.parse import parse_hot_board, parse_article_detail
 from store.base import AbstractNewsStore
 
 
-class ToutiaoCrawler(HttpNewsCrawler):
-    platform = "toutiao"
+class TencentCrawler(HttpNewsCrawler):
+    platform = "tencent"
 
     def __init__(self, store: AbstractNewsStore):
         super().__init__(store)
-        self.client: ToutiaoClient | None = None
+        self.client: TencentClient | None = None
 
     async def setup(self) -> None:
         await super().setup()          # 创建 self.http
-        self.client = ToutiaoClient(self.http)
+        self.client = TencentClient(self.http)
 
     async def fetch_hot_list(self) -> list[NewsItem]:
         data = await self.client.fetch_hot_board()
@@ -29,15 +27,21 @@ class ToutiaoCrawler(HttpNewsCrawler):
         return items
 
     async def fetch_detail(self, item: NewsItem) -> NewsItem:
-        search_html = await self.client.fetch_search_html(item.url)
-        gid = extract_article_gid(search_html)
-        if not gid:
-            return item               # 找不到代表文章，保留列表字段
-        info = await self.client.fetch_article_info(gid)
-        detail = parse_article_info(info)
-        item.article_url = detail["article_url"]
+        html = await self.client.fetch_article_html(item.news_id)
+        detail = parse_article_detail(html)
+        item.article_url = detail["article_url"] or item.url
         item.content = detail["content"]
         item.author = detail["author"]
         item.publish_time = detail["publish_time"]
         item.images = detail["images"]
         return item
+
+
+async def main():
+    from store.json_store import JsonNewsStore
+    crawler = TencentCrawler(store=JsonNewsStore())
+    await crawler.start()
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
