@@ -53,7 +53,10 @@ def parse_article_info(info: dict) -> dict:
     data = info.get("data") or {}
     content_html = data.get("content") or ""
     sel = Selector(text=content_html)
-    text = "".join(sel.xpath("//text()").getall()).strip()
+    # 排除 <style>/<script> 内的文本，避免把内联 CSS/JS 当成正文
+    text = "".join(
+        sel.xpath("//text()[not(ancestor::style) and not(ancestor::script)]").getall()
+    ).strip()
     images = sel.xpath("//img/@src").getall()
     return {
         "article_url": data.get("url"),

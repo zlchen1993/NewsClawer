@@ -105,7 +105,9 @@ def parse_article_detail(html: str) -> dict:
     origin = data.get("originContent") or {}
     text_html = origin.get("text") or ""
     sel = Selector(text=text_html)
-    content = "\n".join(t.strip() for t in sel.xpath("//text()").getall() if t.strip())
+    # 排除 <style>/<script> 内的文本，避免把内联 CSS/JS 当成正文
+    text_nodes = sel.xpath("//text()[not(ancestor::style) and not(ancestor::script)]").getall()
+    content = "\n".join(t.strip() for t in text_nodes if t.strip())
     images = sel.xpath("//img/@src").getall() + sel.xpath("//img/@data-src").getall()
 
     return {

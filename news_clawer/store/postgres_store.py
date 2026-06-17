@@ -6,6 +6,7 @@
 
 import datetime as _dt
 
+from sqlalchemy import delete
 from sqlalchemy.dialects.postgresql import insert
 
 from model.news import NewsItem
@@ -42,6 +43,7 @@ class PostgresNewsStore(AbstractNewsStore):
             await init_models()  # 幂等建表，便于爬虫脱离后端独立落库
             self._initialized = True
 
+        platform = items[0].platform
         rows = []
         for item in items:
             row = item.model_dump()
@@ -54,5 +56,12 @@ class PostgresNewsStore(AbstractNewsStore):
             set_={col: getattr(stmt.excluded, col) for col in _UPDATE_COLS},
         )
         async with async_session() as session:
+            # 每次抓取覆盖当天该平台的整份榜单快照：先删旧批次，避免同日多次
+            # 抓取因热榜变动累积出重复名次/陈旧条目。
+            await session.execute(
+                delete(News).where(
+                    News.platform == platform, News.batch_date == self.batch_date
+                )
+            )
             await session.execute(stmt)
             await session.commit()
