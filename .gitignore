@@ -15,5 +15,8 @@ news_clawer/tests/
 # IDE
 .idea/
 
+# Env / secrets
+.env
+
 data/
 browser_data/

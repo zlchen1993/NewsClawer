@@ -15,7 +15,17 @@ import config
 from base.base_crawler import AbstractNewsCrawler
 from platforms.toutiao.core import ToutiaoCrawler
 from platforms.tx.core import TencentCrawler
+from store.base import AbstractNewsStore
 from store.json_store import JsonNewsStore
+
+
+def build_store() -> AbstractNewsStore:
+    """按 config.SAVE_DATA_OPTION 构造存储后端。"""
+    if config.SAVE_DATA_OPTION == "postgres":
+        from store.postgres_store import PostgresNewsStore
+
+        return PostgresNewsStore()
+    return JsonNewsStore(data_dir=config.DATA_DIR)
 
 
 class CrawlerFactory:
@@ -25,12 +35,12 @@ class CrawlerFactory:
     }
 
     @staticmethod
-    def create(platform: str) -> AbstractNewsCrawler:
+    def create(platform: str, store: AbstractNewsStore | None = None) -> AbstractNewsCrawler:
         cls = CrawlerFactory.CRAWLERS.get(platform)
         if not cls:
             supported = ", ".join(sorted(CrawlerFactory.CRAWLERS))
             raise ValueError(f"不支持的平台: {platform!r}。已支持: {supported}")
-        return cls(store=JsonNewsStore(data_dir=config.DATA_DIR))
+        return cls(store=store if store is not None else build_store())
 
 
 def parse_args() -> argparse.Namespace:
