@@ -46,4 +46,4 @@ class PlatformInfo(BaseModel):
 
 class CrawlAccepted(BaseModel):
     status: str
-    platform: str
+    platforms: list[str]

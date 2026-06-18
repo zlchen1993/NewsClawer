@@ -1,0 +1,46 @@
+INFO:     Started server process [27248]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:3074 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:3076 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:3077 - "GET /api/platforms HTTP/1.1" 200 OK
+INFO:     127.0.0.1:6777 - "POST /api/crawl HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:6791 - "POST /api/crawl HTTP/1.1" 202 Accepted
+2026-06-18 22:03:25,121 [INFO] newsclawer.crawler: [toutiao] 热榜抓取 50 条
+INFO:     127.0.0.1:6825 - "POST /api/crawl HTTP/1.1" 202 Accepted
+2026-06-18 22:03:25,474 [INFO] newsclawer.crawler: [pengpai] 热榜抓取 20 条
+2026-06-18 22:03:25,499 [INFO] newsclawer.crawler: [tencent] 热榜抓取 50 条
+2026-06-18 22:03:25,817 [INFO] newsclawer.crawler: [pengpai] 已存储 20 条
+INFO:     127.0.0.1:5661 - "GET /api/platforms HTTP/1.1" 200 OK
+INFO:     127.0.0.1:5679 - "GET /api/platforms HTTP/1.1" 200 OK
+INFO:     127.0.0.1:1565 - "GET /api/news?platform=toutiao&sort=rank&page_size=100 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:2399 - "GET /api/news?platform=pengpai&sort=rank&page_size=100 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:1564 - "GET /api/news?platform=tencent&sort=rank&page_size=100 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:13668 - "GET /api/news?platform=pengpai&sort=rank&page_size=100 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:13667 - "GET /api/news?platform=toutiao&sort=rank&page_size=100 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:7264 - "GET /api/news?platform=tencent&sort=rank&page_size=100 HTTP/1.1" 200 OK
+2026-06-18 22:03:27,122 [INFO] newsclawer.crawler: [tencent] 已存储 50 条
+INFO:     127.0.0.1:12351 - "GET /api/platforms HTTP/1.1" 200 OK
+INFO:     127.0.0.1:12362 - "GET /api/platforms HTTP/1.1" 200 OK
+INFO:     127.0.0.1:12884 - "GET /api/news?platform=pengpai&sort=rank&page_size=100 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:12885 - "GET /api/news?platform=tencent&sort=rank&page_size=100 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:12886 - "GET /api/news?platform=toutiao&sort=rank&page_size=100 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:6130 - "GET /api/news?platform=toutiao&sort=rank&page_size=100 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:12887 - "GET /api/news?platform=pengpai&sort=rank&page_size=100 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:12888 - "GET /api/news?platform=tencent&sort=rank&page_size=100 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:4262 - "GET /api/platforms HTTP/1.1" 200 OK
+2026-06-18 22:03:38,344 [INFO] newsclawer.crawler: [toutiao] 已存储 50 条
+INFO:     127.0.0.1:12045 - "GET /api/platforms HTTP/1.1" 200 OK
+INFO:     127.0.0.1:5326 - "GET /api/news?platform=pengpai&page=1&page_size=3&sort=hot HTTP/1.1" 200 OK
+INFO:     127.0.0.1:7622 - "GET /api/platforms HTTP/1.1" 200 OK
+INFO:     127.0.0.1:7623 - "GET /api/platforms HTTP/1.1" 200 OK
+INFO:     127.0.0.1:7626 - "GET /api/news?platform=pengpai&sort=rank&page_size=100 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:7624 - "GET /api/news?platform=toutiao&sort=rank&page_size=100 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:7625 - "GET /api/news?platform=tencent&sort=rank&page_size=100 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:14086 - "GET /api/news?platform=pengpai&sort=rank&page_size=100 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:14144 - "GET /api/news?platform=toutiao&sort=rank&page_size=100 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:4811 - "GET /api/news?platform=tencent&sort=rank&page_size=100 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:2929 - "GET /api/news?platform=pengpai&sort=rank&page_size=100 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:2928 - "GET /api/news?platform=tencent&sort=rank&page_size=100 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:2927 - "GET /api/news?platform=toutiao&sort=rank&page_size=100 HTTP/1.1" 200 OK

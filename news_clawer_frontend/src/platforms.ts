@@ -10,6 +10,7 @@ interface PlatformMeta {
 const META: Record<string, PlatformMeta> = {
   toutiao: { name: "今日头条", glyph: "头", icon: "/icons/toutiao.ico", hue: 8 },
   tencent: { name: "腾讯新闻", glyph: "腾", icon: "/icons/tencent.ico", hue: 210 },
+  pengpai: { name: "澎湃新闻", glyph: "澎", icon: "/icons/pengpai.ico", hue: 18 },
 };
 
 export function platformMeta(key: string): PlatformMeta {

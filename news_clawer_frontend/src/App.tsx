@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { getPlatforms, type PlatformInfo } from "./api";
+import { getPlatforms, triggerCrawl, type PlatformInfo } from "./api";
 import { Header } from "./components/Header";
 import { PlatformCard } from "./components/PlatformCard";
 import { DetailDrawer } from "./components/DetailDrawer";
@@ -11,6 +11,7 @@ export default function App() {
   const [state, setState] = useState<"loading" | "ok" | "error">("loading");
   const [openId, setOpenId] = useState<number | null>(null);
   const [reloadKey, setReloadKey] = useState(0);
+  const [updating, setUpdating] = useState(false);
 
   const load = useCallback(() => {
     setState("loading");
@@ -24,10 +25,26 @@ export default function App() {
 
   useEffect(load, [load]);
 
-  const refresh = () => {
+  const refresh = useCallback(() => {
     load();
     setReloadKey((k) => k + 1);
-  };
+  }, [load]);
+
+  // 触发后台爬取全部平台，因爬取异步，分几次轮询刷新看板
+  const update = useCallback(async () => {
+    if (updating) return;
+    setUpdating(true);
+    try {
+      await triggerCrawl();
+      // 爬取异步，等约 12 秒后自动刷新一次看板
+      await new Promise((r) => setTimeout(r, 12000));
+      refresh();
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setUpdating(false);
+    }
+  }, [updating, refresh]);
 
   const latestDate =
     platforms
@@ -39,7 +56,14 @@ export default function App() {
   return (
     <div className="app">
       <div className="grain" aria-hidden />
-      <Header theme={theme} onToggleTheme={toggleTheme} onRefresh={refresh} date={latestDate} />
+      <Header
+        theme={theme}
+        onToggleTheme={toggleTheme}
+        onRefresh={refresh}
+        onUpdate={update}
+        updating={updating}
+        date={latestDate}
+      />
       <main className="board">
         {state === "loading" && <p className="board-hint">加载中…</p>}
         {state === "error" && (

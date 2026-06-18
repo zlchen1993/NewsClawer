@@ -62,3 +62,20 @@ export function getNews(
 export function getNewsDetail(id: number): Promise<NewsDetail> {
   return getJSON<NewsDetail>(`/api/news/${id}`);
 }
+
+export interface CrawlAccepted {
+  status: string;
+  platforms: string[];
+}
+
+// 触发后台爬取：不传 platform = 全部平台。返回 202，数据稍后就绪。
+export function triggerCrawl(platform?: string): Promise<CrawlAccepted> {
+  return fetch("/api/crawl", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(platform ? { platform } : {}),
+  }).then((r) => {
+    if (!r.ok) throw new Error(`触发失败 ${r.status}`);
+    return r.json() as Promise<CrawlAccepted>;
+  });
+}

@@ -15,6 +15,7 @@ import config
 from base.base_crawler import AbstractNewsCrawler
 from platforms.toutiao.core import ToutiaoCrawler
 from platforms.tx.core import TencentCrawler
+from platforms.pengpai.core import PengpaiCrawler
 from store.base import AbstractNewsStore
 from store.json_store import JsonNewsStore
 
@@ -32,6 +33,7 @@ class CrawlerFactory:
     CRAWLERS: dict[str, type[AbstractNewsCrawler]] = {
         "toutiao": ToutiaoCrawler,
         "tencent": TencentCrawler,
+        "pengpai": PengpaiCrawler,
     }
 
     @staticmethod
