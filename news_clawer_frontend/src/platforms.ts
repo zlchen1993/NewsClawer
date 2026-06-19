@@ -11,6 +11,9 @@ const META: Record<string, PlatformMeta> = {
   toutiao: { name: "今日头条", glyph: "头", icon: "/icons/toutiao.ico", hue: 8 },
   tencent: { name: "腾讯新闻", glyph: "腾", icon: "/icons/tencent.ico", hue: 210 },
   pengpai: { name: "澎湃新闻", glyph: "澎", icon: "/icons/pengpai.ico", hue: 18 },
+  weibo: { name: "新浪微博", glyph: "微", icon: "/icons/weibo.ico", hue: 30 },
+  sina: { name: "新浪新闻", glyph: "新", icon: "/icons/sina.ico", hue: 2 },
+  linuxdo: { name: "LINUX DO", glyph: "L", icon: "/icons/linuxdo.svg", hue: 45 },
 };
 
 export function platformMeta(key: string): PlatformMeta {

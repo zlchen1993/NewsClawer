@@ -16,6 +16,9 @@ from base.base_crawler import AbstractNewsCrawler
 from platforms.toutiao.core import ToutiaoCrawler
 from platforms.tx.core import TencentCrawler
 from platforms.pengpai.core import PengpaiCrawler
+from platforms.weibo.core import WeiboCrawler
+from platforms.sina.core import SinaCrawler
+from platforms.linuxdo.core import LinuxDoCrawler
 from store.base import AbstractNewsStore
 from store.json_store import JsonNewsStore
 
@@ -34,6 +37,9 @@ class CrawlerFactory:
         "toutiao": ToutiaoCrawler,
         "tencent": TencentCrawler,
         "pengpai": PengpaiCrawler,
+        "weibo": WeiboCrawler,
+        "sina": SinaCrawler,
+        "linuxdo": LinuxDoCrawler,
     }
 
     @staticmethod

@@ -20,3 +20,6 @@ news_clawer/tests/
 
 data/
 browser_data/
+
+# Logs
+*.log
